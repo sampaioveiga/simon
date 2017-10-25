@@ -1,7 +1,6 @@
 $(document).ready(function(){
   var play, simon_array, listen, i;
 
-
   init();
 
 /* Initial conditions */
@@ -24,90 +23,83 @@ $(document).ready(function(){
 /* Computer logic */
 
   function computer_move() {
-    var element;
-    var color = generate_number();
+    var color = generate_color();
     simon_array.push(color);
+    $("#counter").html(simon_array.length);
     i = 0;
     loopSimonArray();
-
-    /*for (i = 0 ; i <= simon_array.length-1 ; i++) {
-      if (simon_array[i] === "green") {
-        element = $("#green");
-        color = "green";
-      } else if (simon_array[i] === "red") {
-        element = $("#red");
-        color = "red";
-      } else if(simon_array[i] === "yellow") {
-        element = $("#yellow");
-        color = "yellow";
-      } else {
-        element = $("#blue");
-        color = "blue";
-      }
-      animate_circle(element);
-      setTimeout(function(){}, 1000);
-    }*/
     console.log(simon_array);
-    
-    //animate_circle(element);
   };
 
 /* Player logic */
 
   $(".circle").click(function(){
-    //if (play && listen) {
-      setTimeout(function(){ computer_move(); }, 1000);  //just for testing computer logic
-    //  animate_circle($(this));
+    var sound;
+    if (play && listen) {
+      listen = false;
+      var id = $(this).attr("id");
+      if (id === "green") {
+        sound = "audio_green";
+      } else if (id === "red") {
+        sound = "audio_red";
+      } else if(id === "yellow") {
+        sound = "audio_yellow";
+      } else {
+        sound = "audio_blue";
+      }
+      animate_circle($(this), sound);
+      computer_move();
+
       //computer move
-    //}
+    }
   });
 
 /* Auxiliary functions */
 
-  function loopSimonArray () {           //  create a loop function
-    setTimeout(function () {    //  call a 3s setTimeout when the loop is called
+  function loopSimonArray () {            //  create a loop function
+    var element, sound;
+    setTimeout(function () {              //  call a 1s setTimeout when the loop is called
       if (simon_array[i] === "green") {
         element = $("#green");
-        color = "green";
+        sound = "audio_green";
       } else if (simon_array[i] === "red") {
         element = $("#red");
-        color = "red";
+        sound = "audio_red";
       } else if(simon_array[i] === "yellow") {
         element = $("#yellow");
-        color = "yellow";
+        sound = "audio_yellow";
       } else {
         element = $("#blue");
-        color = "blue";
+        sound = "audio_blue";
       }
-      animate_circle(element);
-      i++;                     //  increment the counter
-      if (i < simon_array.length) {            //  if the counter < 10, call the loop function
-         loopSimonArray();             //  ..  again which will trigger another 
-      }                        //  ..  setTimeout()
+      animate_circle(element, sound);
+      i++;                                 //  increment the counter
+      if (i < simon_array.length) {        //  if the counter < array, call the loop function
+         loopSimonArray();                 //  ..  again which will trigger another 
+      } else {
+        listen = true;
+      }                                    //  ..  setTimeout()
     }, 1000)
   }
 
-  function animate_circle(elem){
+  function animate_circle(elem, sound){
+    playSound(sound);
     elem.css("opacity", "0.4");
-    setTimeout(function(){ elem.css("opacity", "1"); }, 200);
-    //console.log(elem.attr("id") + " click");
+    setTimeout(function(){ elem.css("opacity", "1"); }, 300);
   };
 
-  function generate_number() {
+  function generate_color() {
     var min = 1;
     var max = 5;
+    var color;
     var color = Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
     if (color === 1) {
-        element = $("#green");
         color = "green";
       } else if (color === 2) {
-        element = $("#red");
         color = "red";
       } else if(color === 3) {
-        element = $("#yellow");
         color = "yellow";
       } else {
-        element = $("#blue");
         color = "blue";
       }
       return color;
@@ -115,8 +107,14 @@ $(document).ready(function(){
 
   function init() {
     play = false;
-    listen = true;
+    listen = false;
     simon_array = [];
+    $("#counter").html(0);
   };
+
+  function playSound(elem) {
+    var sound = document.getElementById(elem);
+    sound.play();
+  }
 
 });
