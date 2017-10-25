@@ -7,12 +7,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">-->
 
   <link rel="stylesheet" type="text/css" href="css\simon.css">
   <script src="js\simon.js"></script>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Simon Game</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active" id="play_button">
+          <a class="nav-link" href="#">Play <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item" id="reset_button">
+          <a class="nav-link" href="#">Reset</a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+  <div class="row justify-content-center">
+    <div class="light col-8">
+    <svg width="400" height="100">
+      <circle cx="50" cy="50" r="40" stroke="green" stroke-width="6" id="green" class="circle" />
+      <circle cx="150" cy="50" r="40" stroke="red" stroke-width="6" id="red" class="circle" />
+      <circle cx="250" cy="50" r="40" stroke="yellow" stroke-width="6" id="yellow" class="circle" />
+      <circle cx="350" cy="50" r="40" stroke="blue" stroke-width="6" id="blue" class="circle" />
+    </svg>
+  </div>
+
+<footer class="row justify-content-center">
+  <div class="col-6">
+    <ul class="list-group">
+      <li class="list-group-item">User Story: I am presented with a random series of button presses.</li>
+      <li class="list-group-item">User Story: Each time I input a series of button presses correctly, I see the same series of button presses but with an additional step.</li>
+      <li class="list-group-item">User Story: I hear a sound that corresponds to each button both when the series of button presses plays, and when I personally press a button.</li>
+      <li class="list-group-item">User Story: If I press the wrong button, I am notified that I have done so, and that series of button presses starts again to remind me of the pattern so I can try again.</li>
+      <li class="list-group-item">User Story: I can see how many steps are in the current series of button presses.</li>
+      <li class="list-group-item">User Story: If I want to restart, I can hit a button to do so, and the game will return to a single step.</li>
+      <li class="list-group-item">User Story: I can play in strict mode where if I get a button press wrong, it notifies me that I have done so, and the game restarts at a new random series of button presses.</li>
+      <li class="list-group-item">User Story: I can win the game by getting a series of 20 steps correct. I am notified of my victory, then the game starts over.</li>
+      <li class="list-group-item">Hint: Here are mp3s you can use for each button: https://s3.amazonaws.com/freecodecamp/simonSound1.mp3, https://s3.amazonaws.com/freecodecamp/simonSound2.mp3, https://s3.amazonaws.com/freecodecamp/simonSound3.mp3, https://s3.amazonaws.com/freecodecamp/simonSound4.mp3.</li>
+    </ul>
+  </div>
+</footer>
 </body>
 </html>
