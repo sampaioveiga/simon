@@ -1,42 +1,42 @@
 $(document).ready(function(){
   var play, simon_array, listen, i;
 
-  gameInit();
-
 /* Initial conditions */
 
+  gameInit();
+
+/* button actions */
+
   $("#play_button").click(function() {
-    $(this).removeClass("active");
-    $("#reset_button").addClass("active");
-    play = true;
-    setTimeout(function(){ computer_move(); }, 1000);
-    //var circle = computer_move();
-    //animate_circle(circle);
+    $(this).removeClass("active");                      // remove active state
+    $("#reset_button").addClass("active");              // add active state
+    play = true;                                        // set games started
+    setTimeout(function(){ computer_move(); }, 1000);   // wait 1 sec and choose first color
   });
 
   $("#reset_button").click(function() {
-    $(this).removeClass("active");
-    $("#play_button").addClass("active");
-    init();
+    $(this).removeClass("active");                      // remove active state
+    $("#play_button").addClass("active");               // add active state
+    gameInit();                                         // reset game
   });
 
 /* Computer logic */
 
   function computer_move() {
-    var color = generate_color();
-    simon_array.push(color);
-    $("#counter").html(simon_array.length);
+    var color = generate_color();                       // generate random color
+    simon_array.push(color);                            // save new random color
+    $("#counter").html(simon_array.length);             // update counter
     i = 0;
-    loopSimonArray();
-    console.log(simon_array);
+    loopSimonArray();                                   // loop through color array
+    console.log(simon_array);                           // debugging purposes
   };
 
 /* Player logic */
 
   $(".circle").click(function(){
     var sound;
-    if (play && listen) {
-      listen = false;
+    if (play && listen) {                         // if game started and player turn do, else nothing
+      listen = false;                             // wait to process click
       var id = $(this).attr("id");
       if (id === "green") {
         sound = "audio_green";
@@ -56,9 +56,9 @@ $(document).ready(function(){
 
 /* Auxiliary functions */
 
-  function loopSimonArray () {            //  create a loop function
+  function loopSimonArray () {
     var element, sound;
-    setTimeout(function () {              //  call a 1s setTimeout when the loop is called
+    setTimeout(function () {                          // loop array every 1 sec and animate circle
       if (simon_array[i] === "green") {
         element = $("#green");
         sound = "audio_green";
@@ -72,49 +72,48 @@ $(document).ready(function(){
         element = $("#blue");
         sound = "audio_blue";
       }
-      animate_circle(element, sound);
-      i++;                                 //  increment the counter
-      if (i < simon_array.length) {        //  if the counter < array, call the loop function
-         loopSimonArray();                 //  ..  again which will trigger another 
-      } else {
+      animate_circle(element, sound);                 // animate specific element and play respective sound
+      i++;
+      if (i < simon_array.length) {                   // call loop until there are no more colors
+         loopSimonArray();
+      } else {                                        // no more colors
         listen = true;
-      }                                    //  ..  setTimeout()
+      }                                               // allow player to press circles
     }, 1000)
   }
 
   function animate_circle(elem, sound){
-    playSound(sound);
-    elem.css("opacity", "0.4");
-    setTimeout(function(){ elem.css("opacity", "1"); }, 300);
+    playSound(sound);                                           // play sound
+    elem.css("opacity", "0.4");                                 // animate circle
+    setTimeout(function(){ elem.css("opacity", "1"); }, 300);   // wait 0.3 sec and return to normal
   };
 
   function generate_color() {
     var min = 1;
     var max = 5;
-    var color;
     var color = Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
     if (color === 1) {
-        color = "green";
-      } else if (color === 2) {
-        color = "red";
-      } else if(color === 3) {
-        color = "yellow";
-      } else {
-        color = "blue";
-      }
-      return color;
+      color = "green";
+    } else if (color === 2) {
+      color = "red";
+    } else if(color === 3) {
+      color = "yellow";
+    } else {
+      color = "blue";
+    }
+    return color;
   };
 
   function gameInit() {
-    play = false;
-    listen = false;
-    simon_array = [];
-    $("#counter").html(0);
+    play = false;                         // wait for player to start
+    listen = false;                       // do not allow player until game start
+    simon_array = [];                     // clear color array
+    $("#counter").html(0);                // set counter to zero
   };
 
   function playSound(elem) {
-    var sound = document.getElementById(elem);
-    sound.play();
+    var sound = document.getElementById(elem);      // determine sound to play
+    sound.play();                                   // play it
   }
 
 });
