@@ -1,7 +1,7 @@
 $(document).ready(function(){
   var play, simon_array, listen, i;
 
-  init();
+  gameInit();
 
 /* Initial conditions */
 
@@ -105,7 +105,7 @@ $(document).ready(function(){
       return color;
   };
 
-  function init() {
+  function gameInit() {
     play = false;
     listen = false;
     simon_array = [];
