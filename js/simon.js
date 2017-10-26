@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var play, simon_array, listen, i;
+  var play, simon_array, listen, i, turnCounter;
 
 /* Initial conditions */
 
@@ -37,7 +37,7 @@ $(document).ready(function(){
     var sound;
     if (play && listen) {                         // if game started and player turn do, else nothing
       listen = false;                             // wait to process click
-      var id = $(this).attr("id");
+      var id = $(this).attr("id");                // determine wich circle pressed
       if (id === "green") {
         sound = "audio_green";
       } else if (id === "red") {
@@ -47,14 +47,35 @@ $(document).ready(function(){
       } else {
         sound = "audio_blue";
       }
-      animate_circle($(this), sound);
-      computer_move();
+      animate_circle($(this), sound);              // animate that circle
+      compareClickSimon(id);                          // compare click with color in simon array
+      
+      //computer_move();                          // do this only after all conditions met
 
-      //computer move
     }
   });
 
 /* Auxiliary functions */
+
+  function compareClickSimon(elem) {
+    // compare click with correspondent array value
+    if (elem === simon_array[turnCounter]) {
+      console.log("yes");                             // right color, continue
+      turnCounter++;
+      if ( turnCounter === simon_array.length ) {
+        console.log("next color");
+        turnCounter = 0;
+        computer_move();
+      }
+      listen = true;
+    } else {
+      console.log("error, restarting " + simon_array);                              // wrong color, abort
+      listen = false;
+      i = 0;
+      turnCounter = 0;
+      loopSimonArray();
+    }
+  };
 
   function loopSimonArray () {
     var element, sound;
@@ -109,6 +130,7 @@ $(document).ready(function(){
     listen = false;                       // do not allow player until game start
     simon_array = [];                     // clear color array
     $("#counter").html(0);                // set counter to zero
+    turnCounter = 0;                      // set player counter to zero
   };
 
   function playSound(elem) {
