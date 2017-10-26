@@ -23,13 +23,26 @@ $(document).ready(function(){
 /* Computer logic */
 
   function computer_move() {
-    var color = generate_color();                       // generate random color
-    simon_array.push(color);                            // save new random color
-    $("#counter").html(simon_array.length);             // update counter
-    i = 0;
-    loopSimonArray();                                   // loop through color array
-    console.log(simon_array);                           // debugging purposes
+    // check endgame
+    if (simon_array.length === 20) {
+      console.log("We have a winner");
+      $("#exampleModal").modal();
+    } else {
+      var color = generate_color();                       // generate random color
+      simon_array.push(color);                            // save new random color
+      $("#counter").html(simon_array.length);             // update counter
+      i = 0;
+      loopSimonArray();                                   // loop through color array
+      console.log(simon_array);                    // debugging purposes
+    }
   };
+
+  $('#exampleModal').on('hidden.bs.modal', function (e) {
+    console.log("hide modal");
+    gameInit();
+    computer_move();
+    play = true;
+  })
 
 /* Player logic */
 
@@ -37,7 +50,7 @@ $(document).ready(function(){
     var sound;
     if (play && listen) {                         // if game started and player turn do, else nothing
       listen = false;                             // wait to process click
-      var id = $(this).attr("id");                // determine wich circle pressed
+      var id = $(this).attr("id");                // determine which circle pressed
       if (id === "green") {
         sound = "audio_green";
       } else if (id === "red") {
@@ -48,32 +61,26 @@ $(document).ready(function(){
         sound = "audio_blue";
       }
       animate_circle($(this), sound);              // animate that circle
-      compareClickSimon(id);                          // compare click with color in simon array
-      
-      //computer_move();                          // do this only after all conditions met
-
+      compareClickSimon(id);                       // compare click with color in simon array
     }
   });
 
 /* Auxiliary functions */
 
   function compareClickSimon(elem) {
-    // compare click with correspondent array value
-    if (elem === simon_array[turnCounter]) {
-      console.log("yes");                             // right color, continue
-      turnCounter++;
-      if ( turnCounter === simon_array.length ) {
-        console.log("next color");
-        turnCounter = 0;
-        computer_move();
+    if (elem === simon_array[turnCounter]) {                // check if click is equal to color in array in position turnCounter
+      turnCounter++;                                        // increase player move counter
+      if ( turnCounter === simon_array.length ) {           // if all colors match, calculate next color
+        turnCounter = 0;                                    // reset player move counter
+        computer_move();                                    // generate new color
       }
-      listen = true;
+      listen = true;                                        // allow to player to move
     } else {
-      console.log("error, restarting " + simon_array);                              // wrong color, abort
-      listen = false;
-      i = 0;
-      turnCounter = 0;
-      loopSimonArray();
+      listen = false;                                       // block player
+      wrongMoveAlert();                                     // alert player of wrong move
+      i = 0;                                                // reset simonArray index
+      turnCounter = 0;                                      // reset player move counter
+      loopSimonArray();                                     // show color sequence
     }
   };
 
@@ -136,6 +143,21 @@ $(document).ready(function(){
   function playSound(elem) {
     var sound = document.getElementById(elem);      // determine sound to play
     sound.play();                                   // play it
+  }
+
+  function wrongMoveAlert() {
+    var elem = $("#green");
+    var sound= "audio_green";
+    animate_circle(elem,sound);
+    elem = $("#red");
+    sound= "audio_red";
+    animate_circle(elem,sound);
+    elem = $("#yellow");
+    sound= "audio_yellow";
+    animate_circle(elem,sound);
+    elem = $("#blue");
+    sound= "audio_blue";
+    animate_circle(elem,sound);
   }
 
 });
