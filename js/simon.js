@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var play, simon_array, listen, i, turnCounter;
+  var play, simon_array, listen, i, turnCounter, strictMode;
 
 /* Initial conditions */
 
@@ -20,27 +20,36 @@ $(document).ready(function(){
     gameInit();                                         // reset game
   });
 
+  $("#strictModeBtn").click(function() {
+    if (play === false) {                               // do not allow change in game
+      if (strictMode) {                                 // if true set false, if false set true
+        strictMode = false;
+        $("#strictModeBtn").html("Strict Mode OFF");
+      } else {
+        strictMode = true;
+        $("#strictModeBtn").html("Strict Mode ON");
+      }
+    }
+  });
+
 /* Computer logic */
 
   function computer_move() {
     // check endgame
-    if (simon_array.length === 20) {
-      console.log("We have a winner");
-      $("#exampleModal").modal();
+    if (simon_array.length === 20) {                      // maximum number of turns before endgame
+      endGame();
     } else {
       var color = generate_color();                       // generate random color
       simon_array.push(color);                            // save new random color
       $("#counter").html(simon_array.length);             // update counter
       i = 0;
       loopSimonArray();                                   // loop through color array
-      console.log(simon_array);                    // debugging purposes
     }
   };
 
   $('#exampleModal').on('hidden.bs.modal', function (e) {
-    console.log("hide modal");
-    gameInit();
-    computer_move();
+    gameInit();                                               // reset vars
+    computer_move();                                          // restart game
     play = true;
   })
 
@@ -67,6 +76,11 @@ $(document).ready(function(){
 
 /* Auxiliary functions */
 
+  function endGame() {
+    $("#modalContentHTML").html("Congratulations, you win!!!");
+    $("#exampleModal").modal();
+  }
+
   function compareClickSimon(elem) {
     if (elem === simon_array[turnCounter]) {                // check if click is equal to color in array in position turnCounter
       turnCounter++;                                        // increase player move counter
@@ -78,9 +92,13 @@ $(document).ready(function(){
     } else {
       listen = false;                                       // block player
       wrongMoveAlert();                                     // alert player of wrong move
-      i = 0;                                                // reset simonArray index
-      turnCounter = 0;                                      // reset player move counter
-      loopSimonArray();                                     // show color sequence
+      if (strictMode === false) {                           // is strict mode on?
+        i = 0;                                                // reset simonArray index
+        turnCounter = 0;                                      // reset player move counter
+        loopSimonArray();                                     // show color sequence
+      } else {
+        looseGame();
+      }                                                
     }
   };
 
@@ -138,6 +156,8 @@ $(document).ready(function(){
     simon_array = [];                     // clear color array
     $("#counter").html(0);                // set counter to zero
     turnCounter = 0;                      // set player counter to zero
+    strictMode = false;                   // strict mode off
+    $("#strictModeBtn").html("Strict Mode OFF");
   };
 
   function playSound(elem) {
@@ -158,6 +178,11 @@ $(document).ready(function(){
     elem = $("#blue");
     sound= "audio_blue";
     animate_circle(elem,sound);
+  }
+
+  function looseGame() {
+    $("#modalContentHTML").html("Sorry, you lose!!!");
+    $("#exampleModal").modal();
   }
 
 });

@@ -30,57 +30,53 @@
         <li class="nav-item" id="reset_button">
           <a class="nav-link" href="#">Reset</a>
         </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#" id="strictModeBtn">...</a>
+        </li>
       </ul>
       <div class="btn btn-primary disabled">
         Counter: <span id="counter"></span>
       </div>
-
     </div>
-
   </nav>
+
   <div class="row justify-content-center">
     <div class="light col-8">
-    <svg width="400" height="100">
-      <circle cx="50" cy="50" r="38" stroke="green" stroke-width="10" id="green" class="circle" />
-      <circle cx="150" cy="50" r="38" stroke="red" stroke-width="10" id="red" class="circle" />
-      <circle cx="250" cy="50" r="38" stroke="Gold" stroke-width="10" id="yellow" class="circle" />
-      <circle cx="350" cy="50" r="38" stroke="RoyalBlue" stroke-width="10" id="blue" class="circle" />
-    </svg>
-  </div>
+      <svg width="800" height="600">
+        <polygon points="10,10 790,590" style="stroke:DarkGray;stroke-width:5;" />
+        <polygon points="10,590 790,10" style="stroke:DarkGray;stroke-width:5;" />
+        <circle cx="400" cy="150" r="90" stroke="green" stroke-width="20" id="green" class="circle" />
+        <circle cx="200" cy="300" r="90" stroke="red" stroke-width="20" id="red" class="circle" />
+        <circle cx="600" cy="300" r="90" stroke="Gold" stroke-width="20" id="yellow" class="circle" />
+        <circle cx="400" cy="450" r="90" stroke="RoyalBlue" stroke-width="20" id="blue" class="circle" />
+      </svg>
+    </div>
 
-  <audio id="audio_green" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" autostart="false" ></audio>
-  <audio id="audio_red" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" autostart="false" ></audio>
-  <audio id="audio_yellow" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" autostart="false" ></audio>
-  <audio id="audio_blue" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" autostart="false" ></audio>
+    <audio id="audio_green" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" autostart="false" ></audio>
+    <audio id="audio_red" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" autostart="false" ></audio>
+    <audio id="audio_yellow" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" autostart="false" ></audio>
+    <audio id="audio_blue" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" autostart="false" ></audio>
 
-<footer class="row justify-content-center">
-  <div class="col-6">
-    <ul class="list-group">
-      <li class="list-group-item">User Story: I can play in strict mode where if I get a button press wrong, it notifies me that I have done so, and the game restarts at a new random series of button presses.</li>
-    </ul>
-  </div>
-</footer>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">End Game</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h1>We have a winner!!!</h1>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">End Game</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h1 id="modalContentHTML">...</h1>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 
 </body>
 </html>
